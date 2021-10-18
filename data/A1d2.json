@@ -1,0 +1,12 @@
+{
+"type":"A",
+"n":1,
+"d":2,
+"blocklabels":[1,1],
+"blocks":[["A0","1",1]],
+"condition":"none",
+"decmat":[1,0,1,1],
+"hc_series":["ps","A1"],
+"ordinary":["2","11"],
+"origin":"MR1031453"
+}
