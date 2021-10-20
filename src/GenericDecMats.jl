@@ -1,4 +1,4 @@
-"""
+@doc Markdown.doc"""
 This module gives access to the generic decomposition matrices
 of various groups of Lie type.
 
@@ -56,6 +56,7 @@ $
 """
 module GenericDecMats
 
+using Markdown
 using JSON
 using Oscar
 
