@@ -60,6 +60,59 @@ end;
 
 ##############################################################################
 ##
+#F  BrauerStem( <n1>, <n2>, ... )
+##
+##  returns a block diagonal matrix of dimension <n1> + <n2> + ...
+##  whose i-th diagonal block is an <ni> times <ni> matrix whose nonzero
+##  entries are all 1 and occur on the main diagonal and on the first
+##  diagonal below it.
+##
+BrauerStem:= function( arg )
+    local res, ind, i, j;
+
+    res:= IdentityMat( Sum( arg ) );
+    ind:= 0;
+    for i in arg do
+      for j in [ 2 .. i ] do
+        res[ ind+j, ind+j-1]:= 1;
+      od;
+      ind:= ind+i;
+    od;
+    return res;
+end;
+
+
+##############################################################################
+##
+#F  MatrixFromRecipe( <recipe> )
+##
+##  Return the block diagonal matrix described by <recipe>.
+##
+MatrixFromRecipe:= function( recipe )
+    local blockdims, n, result, ind, i, entry, fun, endpos;
+
+    blockdims:= List( recipe,
+                      entry -> Sum( entry{ [ 2 .. Length( entry ) ] } ) );
+    n:= Sum( blockdims );
+    result:= IdentityMat( n );
+    ind:= 0;
+    for i in [ 1 .. Length( recipe ) ] do
+      entry:= recipe[i];
+      if entry[1] <> "Id" then
+        fun:= ValueGlobal( entry[1] );
+        endpos:= ind + blockdims[i];
+        result{ [ ind+1 .. endpos ] }{ [ ind+1 .. endpos ] }:=
+            CallFuncList( fun, entry{ [ 2 .. Length( entry ) ] } );
+      fi;
+      ind:= ind + blockdims[i];
+    od;
+
+    return result;
+end;
+
+
+##############################################################################
+##
 #F  GenericDecompositionMatrix( <name> )
 #F  GenericDecompositionMatrix( <type>, <n>, <d> )
 ##
@@ -87,14 +140,25 @@ end;
 
 ##############################################################################
 ##
-#F  GenericDecompositionMatricesShowOverview()
+#F  GenericDecompositionMatricesNames()
 ##
-GenericDecompositionMatricesShowOverview:= function()
-    local dir, files, names, max, ncols, i, name;
+GenericDecompositionMatricesNames:= function()
+    local dir, files;
 
     dir:= Filename( GDM_pkgdir, "data" );
     files:= Filtered( DirectoryContents( dir ), x -> EndsWith( x, ".json" ) );
-    names:= List( files, x -> x{ [ 1 .. Position( x, '.' ) - 1 ] } );
+    return List( files, x -> x{ [ 1 .. Position( x, '.' ) - 1 ] } );
+end;
+
+
+##############################################################################
+##
+#F  GenericDecompositionMatricesShowOverview()
+##
+GenericDecompositionMatricesShowOverview:= function()
+    local names, max, ncols, i, name;
+
+    names:= GenericDecompositionMatricesNames();
     max:= Maximum( List( names, Length ) ) + 1;
     ncols:= Int( ( SizeScreen()[1] - 4 ) / max );
     i:= 0;
@@ -112,8 +176,7 @@ end;
 
 ##############################################################################
 ##
-#F  Browse( <decmat> )
-#F  Browse( <decmat>, <blocknr> )
+#F  Browse( <decmat>[, <blocknr>] )
 ##
 InstallMethod( Browse, [ IsRecord ],
     function(r)
