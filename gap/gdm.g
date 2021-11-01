@@ -84,12 +84,12 @@ end;
 
 ##############################################################################
 ##
-#F  MatrixFromRecipe( <recipe> )
+#F  MatrixFromRecipe( <recipe>[, <mat>] )
 ##
 ##  Return the block diagonal matrix described by <recipe>.
 ##
-MatrixFromRecipe:= function( recipe )
-    local blockdims, n, result, ind, i, entry, fun, endpos;
+MatrixFromRecipe:= function( recipe, mat... )
+    local blockdims, n, result, ind, i, entry, bl, fun, endpos;
 
     blockdims:= List( recipe,
                       entry -> Sum( entry{ [ 2 .. Length( entry ) ] } ) );
@@ -98,7 +98,10 @@ MatrixFromRecipe:= function( recipe )
     ind:= 0;
     for i in [ 1 .. Length( recipe ) ] do
       entry:= recipe[i];
-      if entry[1] <> "Id" then
+      if entry[1] = "Sub" and Length( mat ) = 1 then
+        bl:= [ ind+1 .. ind + entry[2] ];
+        result{ bl }{ bl }:= mat[1]{ bl }{ bl };
+      elif entry[1] <> "Id" then
         fun:= ValueGlobal( entry[1] );
         endpos:= ind + blockdims[i];
         result{ [ ind+1 .. endpos ] }{ [ ind+1 .. endpos ] }:=
@@ -131,7 +134,7 @@ GenericDecompositionMatrix:= function( arg )
 
     file:= Filename( GDM_pkgdir, Concatenation( "data/", name, ".json" ) );
     if not IsExistingFile( file ) then
-      Error( "no data for '", name, "'" );
+      return fail;
     fi;
 
     return GDM_GAP_record_from_JSON( StringFile( file ) );
