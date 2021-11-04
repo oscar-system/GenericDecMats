@@ -179,22 +179,56 @@ end;
 
 ##############################################################################
 ##
+#V  GDM_References
+#F  GDM_Load_References()
+##
+##  Load the references into the record 'GDM_References'.
+##  They are currently used by the 'Browse' function.
+##
+GDM_References:= rec();
+GDM_Load_References:= function()
+    local prs, e, r;
+
+    prs:= ParseBibXMLextFiles(
+              Filename( GDM_pkgdir, "doc/References.bib.xml" ) );
+    for e in prs.entries do
+      r:= RecBibXMLEntry( e, "Text", prs.strings );
+      GDM_References.( r.Label ):= e;
+    od;
+end;
+GDM_Load_References();
+
+
+##############################################################################
+##
 #F  Browse( <decmat>[, <blocknr>] )
 ##
-InstallMethod( Browse, [ IsRecord ],
-    function(r)
+InstallMethod( Browse, [ "IsRecord" ],
+    function( r )
+    local origin;
+
     if not IsBound( r.decmat ) then
       TryNextMethod();
     fi;
+
+    origin:= Concatenation( "\n",
+                StringBibXMLEntry( GDM_References.( r.origin ), "Text" ) );
+#TODO: As soon as Browse supports unicode characters, do not convert to ASCII.
+    origin:= Encode( SimplifiedUnicodeString( Unicode( origin ), "ASCII" ),
+                     "ASCII" );
+
     NCurses.BrowseDenseList( r.decmat, rec(
         header:= [ Concatenation( r.name[1], String( r.name[2] ),
-                       ", d = ", String( r.d ) ) ],
+                       ", d = ", String( r.d ) ),
+                   "" ],
         convertEntry:= NCurses.ReplaceZeroByDot,
         labelsCol:= [ r.hc_series ],
-        labelsRow:= List( r.ordinary, x -> [ x ] ) ) );
+        labelsRow:= List( r.ordinary, x -> [ x ] ),
+        footer:= SplitString( origin, "\n" ),
+      ) );
     end );
 
-InstallOtherMethod( Browse, [ IsRecord, IsInt ],
+InstallOtherMethod( Browse, [ "IsRecord", "IsInt" ],
     function( r, i )
     local pos, tr, poss;
 
@@ -209,6 +243,7 @@ InstallOtherMethod( Browse, [ IsRecord, IsInt ],
         d:= Concatenation( String( r.d ), " (block ", String( i ), ")" ),
         decmat:= r.decmat{ pos }{ poss },
         hc_series:= r.hc_series{ poss },
-        ordinary:= r.ordinary{ pos } ) );
+        ordinary:= r.ordinary{ pos },
+        origin:= r.origin ) );
     end);
 

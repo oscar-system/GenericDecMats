@@ -1,0 +1,222 @@
+<entry id="MR753422"><article>
+  <author>
+    <name><first>Paul</first><last>Fong</last></name>
+    <name><first>Bhama</first><last>Srinivasan</last></name>
+  </author>  
+  <title>Brauer trees in <C><M>{\rm GL}(n,\,q)</M></C></title>
+  <journal>Math. Z.</journal>
+  <year>1984</year>
+  <volume>187</volume>
+  <number>1</number>
+  <pages>81--88</pages>
+  <issn>0025-5874</issn>
+  <mrnumber>753422</mrnumber>
+  <mrclass>20C20</mrclass>
+  <mrreviewer>Peter W. Donovan</mrreviewer>
+  <url>https://doi.org/10.1007/BF01163168</url>
+  <other type="doi">10.1007/BF01163168</other>
+  <other type="fjournal">Mathematische Zeitschrift</other>
+</article></entry>
+
+<entry id="MR1055005"><article>
+  <author>
+    <name><first>Paul</first><last>Fong</last></name>
+    <name><first>Bhama</first><last>Srinivasan</last></name>
+  </author>  
+  <title>Brauer trees in classical groups</title>
+  <journal>J. Algebra</journal>
+  <year>1990</year>
+  <volume>131</volume>
+  <number>1</number>
+  <pages>179--225</pages>
+  <issn>0021-8693</issn>
+  <mrnumber>1055005</mrnumber>
+  <mrclass>20C20 (20G40)</mrclass>
+  <mrreviewer>Gerhard Hiss</mrreviewer>
+  <url>https://doi.org/10.1016/0021-8693(90)90172-K</url>
+  <other type="doi">10.1016/0021-8693(90)90172-K</other>
+  <other type="fjournal">Journal of Algebra</other>
+</article></entry>
+
+<entry id="MR1031453"><article>
+  <author>
+    <name><first>Gordon</first><last>James</last></name>
+  </author>  
+  <title>The decomposition matrices of <C><M>{\rm GL}_n(q)</M></C> for
+      <C><M>n\le
+              10</M></C></title>
+  <journal>Proc. London Math. Soc. (3)</journal>
+  <year>1990</year>
+  <volume>60</volume>
+  <number>2</number>
+  <pages>225--265</pages>
+  <issn>0024-6115</issn>
+  <mrnumber>1031453</mrnumber>
+  <mrclass>20C30 (20G05 20G40)</mrclass>
+  <mrreviewer>Richard Dipper</mrreviewer>
+  <url>https://doi.org/10.1112/plms/s3-60.2.225</url>
+  <other type="doi">10.1112/plms/s3-60.2.225</other>
+  <other type="fjournal">Proceedings of the London Mathematical Society. Third
+      Series</other>
+</article></entry>
+
+<entry id="MR1289097"><article>
+  <author>
+    <name><first>Meinolf</first><last>Geck</last></name>
+    <name><first>Gerhard</first><last>Hiss</last></name>
+    <name><first>Gunter</first><last>Malle</last></name>
+  </author>  
+  <title>Cuspidal unipotent <C>B</C>rauer characters</title>
+  <journal>J. Algebra</journal>
+  <year>1994</year>
+  <volume>168</volume>
+  <number>1</number>
+  <pages>182--220</pages>
+  <issn>0021-8693</issn>
+  <mrnumber>1289097</mrnumber>
+  <mrclass>20G05 (20C20)</mrclass>
+  <mrreviewer>Bhama Srinivasan</mrreviewer>
+  <url>https://doi.org/10.1006/jabr.1994.1226</url>
+  <other type="doi">10.1006/jabr.1994.1226</other>
+  <other type="fjournal">Journal of Algebra</other>
+</article></entry>
+
+<entry id="MR1489925"><article>
+  <author>
+    <name><first>Tetsuro</first><last>Okuyama</last></name>
+    <name><first>Katsushi</first><last>Waki</last></name>
+  </author>  
+  <title>Decomposition numbers of <C><M>{\rm Sp}(4,q)</M></C></title>
+  <journal>J. Algebra</journal>
+  <year>1998</year>
+  <volume>199</volume>
+  <number>2</number>
+  <pages>544--555</pages>
+  <issn>0021-8693</issn>
+  <mrnumber>1489925</mrnumber>
+  <mrclass>20C33 (20C20 20G05 20G40)</mrclass>
+  <mrreviewer>Gerhard Hiss</mrreviewer>
+  <url>https://doi.org/10.1006/jabr.1997.7189</url>
+  <other type="doi">10.1006/jabr.1997.7189</other>
+  <other type="fjournal">Journal of Algebra</other>
+</article></entry>
+
+<entry id="MR3216598"><article>
+  <author>
+    <name><first>Frank</first><last>Himstedt</last></name>
+    <name><first>Felix</first><last>Noeske</last></name>
+  </author>  
+  <title>Decomposition numbers of <C><M>{\rm SO}_7(q)</M></C> and <C><M>{\rm
+              Sp}_6(q)</M></C></title>
+  <journal>J. Algebra</journal>
+  <year>2014</year>
+  <volume>413</volume>
+  <pages>15--40</pages>
+  <issn>0021-8693</issn>
+  <mrnumber>3216598</mrnumber>
+  <mrclass>20G40 (20C33 20G05)</mrclass>
+  <mrreviewer>Jean Michel</mrreviewer>
+  <url>https://doi.org/10.1016/j.jalgebra.2014.04.020</url>
+  <other type="doi">10.1016/j.jalgebra.2014.04.020</other>
+  <other type="fjournal">Journal of Algebra</other>
+</article></entry>
+
+<entry id="MR3356813"><article>
+  <author>
+    <name><first>Olivier</first><last>Dudas</last></name>
+    <name><first>Gunter</first><last>Malle</last></name>
+  </author>  
+  <title>Decomposition matrices for low-rank unitary groups</title>
+  <journal>Proc. Lond. Math. Soc. (3)</journal>
+  <year>2015</year>
+  <volume>110</volume>
+  <number>6</number>
+  <pages>1517--1557</pages>
+  <issn>0024-6115</issn>
+  <mrnumber>3356813</mrnumber>
+  <mrclass>20C20 (20C33)</mrclass>
+  <mrreviewer>Bhama Srinivasan</mrreviewer>
+  <url>https://doi.org/10.1112/plms/pdv008</url>
+  <other type="doi">10.1112/plms/pdv008</other>
+  <other type="fjournal">Proceedings of the London Mathematical Society. Third
+      Series</other>
+</article></entry>
+
+<entry id="MR3414409"><article>
+  <author>
+    <name><first>Olivier</first><last>Dudas</last></name>
+    <name><first>Gunter</first><last>Malle</last></name>
+  </author>  
+  <title>Decomposition matrices for exceptional groups at
+      <C><M>d=4</M></C></title>
+  <journal>J. Pure Appl. Algebra</journal>
+  <year>2016</year>
+  <volume>220</volume>
+  <number>3</number>
+  <pages>1096--1121</pages>
+  <issn>0022-4049</issn>
+  <mrnumber>3414409</mrnumber>
+  <mrclass>20C33 (20C20)</mrclass>
+  <mrreviewer>Bhama Srinivasan</mrreviewer>
+  <url>https://doi.org/10.1016/j.jpaa.2015.08.009</url>
+  <other type="doi">10.1016/j.jpaa.2015.08.009</other>
+  <other type="fjournal">Journal of Pure and Applied Algebra</other>
+</article></entry>
+
+<entry id="MR3937335"><article>
+  <author>
+    <name><first>Olivier</first><last>Dudas</last></name>
+    <name><first>Gunter</first><last>Malle</last></name>
+  </author>  
+  <title>Bounding <C>H</C>arish-<C>C</C>handra series</title>
+  <journal>Trans. Amer. Math. Soc.</journal>
+  <year>2019</year>
+  <volume>371</volume>
+  <number>9</number>
+  <pages>6511--6530</pages>
+  <issn>0002-9947</issn>
+  <mrnumber>3937335</mrnumber>
+  <mrclass>20C33 (20C08)</mrclass>
+  <mrreviewer>Gerhard Hiss</mrreviewer>
+  <url>https://doi.org/10.1090/tran/7600</url>
+  <other type="doi">10.1090/tran/7600</other>
+  <other type="fjournal">Transactions of the American Mathematical
+      Society</other>
+</article></entry>
+
+<entry id="MR1935498"><article>
+  <author>
+    <name><first>Tetsuro</first><last>Okuyama</last></name>
+    <name><first>Katsushi</first><last>Waki</last></name>
+  </author>  
+  <title>Decomposition numbers of <C><M>{\rm SU}(3,q^2)</M></C></title>
+  <journal>J. Algebra</journal>
+  <year>2002</year>
+  <volume>255</volume>
+  <number>2</number>
+  <pages>258--270</pages>
+  <issn>0021-8693</issn>
+  <mrnumber>1935498</mrnumber>
+  <mrclass>20C33 (20C20)</mrclass>
+  <mrreviewer>Meinolf Geck</mrreviewer>
+  <url>https://doi.org/10.1016/S0021-8693(02)00160-6</url>
+  <other type="doi">10.1016/S0021-8693(02)00160-6</other>
+  <other type="fjournal">Journal of Algebra</other>
+</article></entry>
+
+<entry id="arXiv:2001.06395"><misc>
+  <author>
+    <name><first>Olivier</first><last>Dudas</last></name>
+    <name><first>Gunter</first><last>Malle</last></name>
+  </author>  
+  <title>Decomposition matrices for groups of Lie type
+              in non-defining characteristic.</title>
+  <howpublished>arXiv:2001.06395</howpublished>
+</misc></entry>
+
+<entry id="G.M."><misc>
+  <author>
+    <name><first>Gunter</first><last>Malle</last></name>
+  </author>  
+  <title>Computed directly (in principle known from MR1031453 [James 1990]).</title>
+</misc></entry>
