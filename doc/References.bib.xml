@@ -43,7 +43,7 @@
     <name><first>Gordon</first><last>James</last></name>
   </author>  
   <title>The decomposition matrices of <C><M>{\rm GL}_n(q)</M></C> for
-      <C><M>n\le
+      <C><M>n \leq
               10</M></C></title>
   <journal>Proc. London Math. Soc. (3)</journal>
   <year>1990</year>
@@ -210,13 +210,14 @@
     <name><first>Gunter</first><last>Malle</last></name>
   </author>  
   <title>Decomposition matrices for groups of Lie type
-              in non-defining characteristic.</title>
+              in non-defining characteristic</title>
   <howpublished>arXiv:2001.06395</howpublished>
+  <url>https://arxiv.org/abs/2001.06395</url>
 </misc></entry>
 
 <entry id="G.M."><misc>
   <author>
     <name><first>Gunter</first><last>Malle</last></name>
   </author>  
-  <title>Computed directly (in principle known from MR1031453 [James 1990]).</title>
+  <title>Computed directly (in principle known from MR1031453 [Jam90])</title>
 </misc></entry>
