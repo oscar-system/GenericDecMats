@@ -1,89 +1,5 @@
 ##############################################################################
 ##
-#F  GDM_polynomial_from_extrep( <fam>, <entry>, <indetsindices> )
-##
-GDM_polynomial_from_extrep:= function( fam, entry, indetsindices )
-    local i, monom, j;
-
-    for i in [ 1, 3 .. Length( entry ) - 1 ] do
-      monom:= entry[i];
-      for j in [ 1, 3 .. Length( monom ) - 1 ] do
-        monom[j]:= indetsindices[ monom[j] ];
-      od;
-    od;
-    return PolynomialByExtRep( fam, entry );
-end;
-
-
-##############################################################################
-##
-#F  GDM_GAP_record_from_JSON( <string> )
-##
-##  For a string <string> that is a JSON text encoding a generic decomposition
-##  matrix, return the corresponding GAP record.
-##
-GDM_GAP_record_from_JSON:= function( string )
-    local scan, nam, indets, fam, indetsindices, i, m, n;
-
-    scan:= JsonStringToGap( string );
-
-    # Insert 'name' and 'vars'.
-    scan.name:= [ scan.type, scan.n ];
-    scan.vars:= rec();
-    if IsBound( scan.indets ) and Length( scan.indets ) > 0 then
-      for nam in scan.indets do
-        scan.vars.( nam ):= Indeterminate( Integers, nam );
-      od;
-
-      # Construct the decomposition matrix.
-      indets:= List( scan.indets, nam -> Indeterminate( Integers, nam ) );
-      fam:= FamilyObj( indets[1] );
-      indetsindices:= List( scan.indets,
-                            nam -> Position( fam!.namesIndets, nam ) );
-    fi;
-    for i in [ 1 .. Length( scan.decmat ) ] do
-      if not IsInt( scan.decmat[i] ) then
-        scan.decmat[i]:= GDM_polynomial_from_extrep( fam, scan.decmat[i],
-                             indetsindices );
-      fi;
-    od;
-    if scan.decmat <> [] then
-      m:= Length( scan.ordinary );
-      n:= Length( scan.hc_series );
-      scan.decmat:= List( [ 1 .. m ],
-                          i -> scan.decmat{ [ (i-1)*n+1 .. i*n ] } );
-    fi;
-
-    return scan;
-end;
-
-
-##############################################################################
-##
-#F  BrauerStem( <n1>, <n2>, ... )
-##
-##  returns a block diagonal matrix of dimension <n1> + <n2> + ...
-##  whose i-th diagonal block is an <ni> times <ni> matrix whose nonzero
-##  entries are all 1 and occur on the main diagonal and on the first
-##  diagonal below it.
-##
-BrauerStem:= function( arg )
-    local res, ind, i, j;
-
-    res:= IdentityMat( Sum( arg ) );
-    ind:= 0;
-    for i in arg do
-      for j in [ 2 .. i ] do
-        res[ ind+j, ind+j-1]:= 1;
-      od;
-      ind:= ind+i;
-    od;
-    return res;
-end;
-
-
-##############################################################################
-##
 #F  MatrixFromRecipe( <recipe>[, <mat>] )
 ##
 ##  Return the block diagonal matrix described by <recipe>.
@@ -116,11 +32,228 @@ end;
 
 ##############################################################################
 ##
+#F  GDM_polynomial_from_extrep( <fam>, <entry>, <indetsindices> )
+##
+GDM_polynomial_from_extrep:= function( fam, entry, indetsindices )
+    local i, monom, j;
+
+    for i in [ 1, 3 .. Length( entry ) - 1 ] do
+      monom:= entry[i];
+      for j in [ 1, 3 .. Length( monom ) - 1 ] do
+        monom[j]:= indetsindices[ monom[j] ];
+      od;
+    od;
+    return PolynomialByExtRep( fam, entry );
+end;
+
+
+##############################################################################
+##
+#F  GDM_GAP_record_from_raw_data( <scan> )
+##
+##  For a record <scan> obtained from evaluating a JSON text encoding a
+##  generic decomposition matrix, set additional components in <scan>
+##  and then return <scan>.
+##
+GDM_GAP_record_from_raw_data:= function( scan )
+    local nam, indets, fam, indetsindices, i, m, n, diff;
+
+    # Insert 'name' and 'vars'.
+    scan.name:= [ scan.type, scan.n ];
+    scan.vars:= rec();
+
+    # Prepare the indeterminates.
+    if IsBound( scan.indets ) and Length( scan.indets ) > 0 then
+      for nam in scan.indets do
+        scan.vars.( nam ):= Indeterminate( Integers, nam );
+      od;
+
+      indets:= List( scan.indets, nam -> Indeterminate( Integers, nam ) );
+      fam:= FamilyObj( indets[1] );
+      indetsindices:= List( scan.indets,
+                            nam -> Position( fam!.namesIndets, nam ) );
+    fi;
+
+    # Construct the decomposition matrix.
+    for i in [ 1 .. Length( scan.decmat ) ] do
+      if not IsInt( scan.decmat[i] ) then
+        scan.decmat[i]:= GDM_polynomial_from_extrep( fam, scan.decmat[i],
+                             indetsindices );
+      fi;
+    od;
+    if scan.decmat <> [] then
+      m:= Length( scan.ordinary );
+      n:= Length( scan.hc_series );
+      scan.decmat:= List( [ 1 .. m ],
+                          i -> scan.decmat{ [ (i-1)*n+1 .. i*n ] } );
+    fi;
+
+    # Extend the 'blocklabels' list by defect zero characters.
+    diff:= Length( scan.ordinary ) - Length( scan.blocklabels );
+    if 0 < diff then
+      Append( scan.blocklabels, Maximum( scan.blocklabels ) + [ 1 .. diff ] );
+    fi;
+
+    # Extend the 'blocks' list by defect zero blocks if necessary.
+    nam:= Concatenation( scan.type, String( scan.n ) );
+    for i in [ Length( scan.blocks ) + 1 .. Maximum( scan.blocklabels ) ] do
+      Add( scan.blocks,
+           [ nam, scan.ordinary[ Position( scan.blocklabels, i ) ], 0 ] );
+    od;
+
+    return scan;
+end;
+
+
+##############################################################################
+##
+#F  GDM_RawData( <name> )
+##
+##  Return the GAP record obtained by evaluating the contents of the
+##  data file for <name> with 'JsonStringToGap'.
+##
+GDM_RawData:= function( name )
+    local file;
+
+    file:= Filename( GDM_pkgdir, Concatenation( "data/", name, ".json" ) );
+    if not IsReadableFile( file ) then
+      return fail;
+    fi;
+
+    return JsonStringToGap( StringFile( file ) );
+end;
+
+
+##############################################################################
+##
+#F  GDM_TestConsistency( <name> )
+##
+##  Test both the data file and the object in the GAP session.
+##
+##  - Test the existence of mandatory components.
+##  - Test the consistency of matrices and their labels.
+##  - Test the consistency of block information.
+##
+GDM_TestConsistency:= function( name )
+    local raw, record, cmps, miss, lr, lc, m, nam, bpos, blpos, row, onepos;
+
+    # create a record with raw data
+    raw:= GDM_RawData( name );
+    if raw = fail then
+      return fail;
+    fi;
+
+    # create the data record, as an independent object
+    record:= GDM_GAP_record_from_raw_data( StructuralCopy( raw ) );
+
+    # missing mandatory components?
+    cmps:= [ "condition", "d", "decmat", "hc_series", "name", "ordinary",
+             "origin" ];
+    miss:= Filtered( cmps, c -> not IsBound( record.( c ) ) );
+    if not IsEmpty( miss ) then
+      return Concatenation( "missing components: ", String( miss ) );
+    fi;
+
+    # consistency of lengths
+    lr:= Length( raw.ordinary );
+    lc:= Length( raw.hc_series );
+    m:= record.decmat;
+    if Length( m ) = 0 then
+      return "empty 'decmat'";
+    elif Length( m ) <> lr then
+      return "inconsistent 'decmat' and 'ordinary'";
+    elif ForAny( m, a -> Length( a ) <> lc ) then
+      return "inconsistent 'decmat' and 'hc_series'";
+    fi;
+
+    # consistency of block information
+    if IsBound( record.blocklabels ) and
+         Length( record.blocklabels ) <> lr then
+      return "inconsistent 'decmat' and 'blocklabels'";
+    elif IsBound( record.blocklabels ) and
+         IsBound( record.blocks ) and
+         MaximumList( record.blocklabels, 0 ) <> Length( record.blocks ) then
+      return "inconsistent 'blocks' and 'blocklabels'";
+    fi;
+
+    # necessary conditions for defect zero blocks
+    # - the first entry in a defect zero block must be the current type,
+    # - the position of a defect zero block in 'blocks' occurs exactly once
+    #   in 'blocklabels',
+    # - the corresponding label in 'ordinary' is equal to the 2nd entry in
+    #   the triple in 'blocks',
+    # - the corresponding row in 'decmat' contains exactly one nonzero entry
+    #   (equal to 1), and its column has exactly one nonzero entry.
+    nam:= Concatenation( record.type, String( record.n ) );
+    for bpos in PositionsProperty( record.blocks, l -> l[3] = 0 ) do
+      if record.blocks[ bpos ][1] <> nam then
+        return Concatenation( "defect zero block '", String( bpos ),
+                   "' has strange label" );
+      fi;
+      blpos:= Positions( record.blocklabels, bpos );
+      if Length( blpos ) <> 1 then
+        return Concatenation( "defect zero block '", String( bpos ),
+                   "' does not occur exactly once in 'blocklabels'" );
+      elif record.blocks[ bpos ][2] <> record.ordinary[ blpos[1] ] then
+        return Concatenation( "defect zero block '", String( bpos ),
+                   "' has strange label of ordinary character" );
+      fi;
+      row:= record.decmat[ blpos[1] ];
+      onepos:= Positions( row, 1 );
+      if Length( onepos ) <> 1 then
+        return Concatenation( "defect zero block '", String( bpos ),
+                   "' has more than one 1 in 'decmat'" );
+      elif Number( row, IsZero ) <> lr - 1 then
+        return Concatenation( "defect zero block '", String( bpos ),
+                   "' has not enough zeros in 'decmat'" );
+      elif Number( record.decmat, r -> r[ onepos[1] ] = 0 ) <> lc - 1 then
+        return Concatenation( "defect zero block '", String( bpos ),
+                   "' does not fit to column '",
+                   String( onepos[1] ), "' in 'decmat'" );
+      fi;
+    od;
+
+    # Check that the 'recipe' field, if available, is correct.
+    if IsBound( record.recipe ) and
+       MatrixFromRecipe( record.recipe, record.decmat ) <> record.decmat then
+      return "'recipe' is not correct";
+    fi;
+
+    return "";
+end;
+
+
+##############################################################################
+##
+#F  BrauerStem( <n1>, <n2>, ... )
+##
+##  returns a block diagonal matrix of dimension <n1> + <n2> + ...
+##  whose i-th diagonal block is an <ni> times <ni> matrix whose nonzero
+##  entries are all 1 and occur on the main diagonal and on the first
+##  diagonal below it.
+##
+BrauerStem:= function( arg )
+    local res, ind, i, j;
+
+    res:= IdentityMat( Sum( arg ) );
+    ind:= 0;
+    for i in arg do
+      for j in [ 2 .. i ] do
+        res[ ind+j, ind+j-1]:= 1;
+      od;
+      ind:= ind+i;
+    od;
+    return res;
+end;
+
+
+##############################################################################
+##
 #F  GenericDecompositionMatrix( <name> )
 #F  GenericDecompositionMatrix( <type>, <n>, <d> )
 ##
 GenericDecompositionMatrix:= function( arg )
-    local name, file;
+    local name, r;
 
     if Length( arg ) = 1 and IsString( arg[1] ) then
       name:= arg[1];
@@ -132,12 +265,12 @@ GenericDecompositionMatrix:= function( arg )
              "GenericDecompositionMatrix( <type>, <n>, <d> )" );
     fi;
 
-    file:= Filename( GDM_pkgdir, Concatenation( "data/", name, ".json" ) );
-    if not IsExistingFile( file ) then
+    r:= GDM_RawData( name );
+    if r = fail then
       return fail;
     fi;
 
-    return GDM_GAP_record_from_JSON( StringFile( file ) );
+    return GDM_GAP_record_from_raw_data( r );
 end;
 
 
@@ -230,7 +363,7 @@ InstallMethod( Browse, [ "IsRecord" ],
 
 InstallOtherMethod( Browse, [ "IsRecord", "IsInt" ],
     function( r, i )
-    local pos, tr, poss;
+    local pos, tr, poss, defect;
 
     if not IsBound( r.decmat ) then
       TryNextMethod();
@@ -238,9 +371,15 @@ InstallOtherMethod( Browse, [ "IsRecord", "IsInt" ],
     pos:= Positions( r.blocklabels, i );
     tr:= TransposedMat( r.decmat{ pos } );
     poss:= Filtered( [ 1 .. Length( tr ) ], j -> not IsZero( tr[j] ) );
+    if IsBound( r.blocks[i] ) then
+      defect:= Concatenation( ", defect ", String( r.blocks[i][3] ) );
+    else
+      defect:= "";
+    fi;
+
     Browse( rec(
         name:= r.name,
-        d:= Concatenation( String( r.d ), " (block ", String( i ), ")" ),
+        d:= Concatenation( String( r.d ), " (block ", String( i ), defect, ")" ),
         decmat:= r.decmat{ pos }{ poss },
         hc_series:= r.hc_series{ poss },
         ordinary:= r.ordinary{ pos },

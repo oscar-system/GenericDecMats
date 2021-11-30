@@ -4,10 +4,10 @@ gap> START_TEST( "gdm.tst" );
 gap> for name in GenericDecompositionMatricesNames() do
 >      mat:= GenericDecompositionMatrix( name );
 > 
->      # Check that the available 'recipe' fields are correct.
->      if IsBound( mat.recipe ) and
->         MatrixFromRecipe( mat.recipe, mat.decmat ) <> mat.decmat then
->        Error( "'mat.recipe' is not correct for '", name, "'" );
+>      # Check that the record is consistent.
+>      res:= GDM_TestConsistency( name );
+>      if res <> "" then
+>        Print( "#E  inconsistent: '", name, "' (", res, ")\n" );
 >      fi;
 > 
 >      # Check that the 'Browse' methods work.
