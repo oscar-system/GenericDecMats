@@ -132,6 +132,20 @@ function generic_decomposition_matrix(name::String)
     end
     decmat = matrix(R, m, n, list)
 
+    # Extend the 'blocklabels' list by defect zero characters.
+    diff = m - length(prs[:blocklabels])
+    if 0 < diff
+      mx = maximum(prs[:blocklabels])
+      append!(prs[:blocklabels], (mx+1):(mx+diff) )
+    end
+
+    # Extend the 'blocks' list by defect zero blocks if necessary.
+    nam = "$(prs[:type])$(prs[:n])"
+    for i in (length(prs[:blocks])+1):maximum(prs[:blocklabels])
+      push!(prs[:blocks],
+            [nam, prs[:ordinary][findfirst(isequal(i), prs[:blocklabels])], 0])
+    end
+
     obj = GenericDecompositionMatrix(
       prs[:type],
       prs[:n],
