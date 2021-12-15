@@ -3,7 +3,7 @@
 "n":2,
 "d":6,
 "blocklabels":[1,1,1],
-"blocks":[["A0","1",1]],
+"blocks":[["A_0","1",1]],
 "condition":"none",
 "decmat":[1,0,0,0,1,0,1,0,1],
 "hc_series":["ps","21","111"],

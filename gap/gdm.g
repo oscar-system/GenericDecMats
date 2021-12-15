@@ -95,7 +95,11 @@ GDM_GAP_record_from_raw_data:= function( scan )
     fi;
 
     # Extend the 'blocks' list by defect zero blocks if necessary.
-    nam:= Concatenation( scan.type, String( scan.n ) );
+    if scan.n < 10 then
+      nam:= Concatenation( scan.type, "_", String( scan.n ) );
+    else
+      nam:= Concatenation( scan.type, "_{", String( scan.n ), "}" );
+    fi;
     for i in [ Length( scan.blocks ) + 1 .. Maximum( scan.blocklabels ) ] do
       Add( scan.blocks,
            [ nam, scan.ordinary[ Position( scan.blocklabels, i ) ], 0 ] );
@@ -184,7 +188,11 @@ GDM_TestConsistency:= function( name )
     #   the triple in 'blocks',
     # - the corresponding row in 'decmat' contains exactly one nonzero entry
     #   (equal to 1), and its column has exactly one nonzero entry.
-    nam:= Concatenation( record.type, String( record.n ) );
+    if record.n < 10 then
+      nam:= Concatenation( record.type, "_", String( record.n ) );
+    else
+      nam:= Concatenation( record.type, "_{", String( record.n ), "}" );
+    fi;
     for bpos in PositionsProperty( record.blocks, l -> l[3] = 0 ) do
       if record.blocks[ bpos ][1] <> nam then
         return Concatenation( "defect zero block '", String( bpos ),

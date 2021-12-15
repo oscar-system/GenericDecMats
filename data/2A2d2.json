@@ -3,7 +3,7 @@
 "n":2,
 "d":2,
 "blocklabels":[1,1,1],
-"blocks":[["A0","1",2]],
+"blocks":[["A_0","1",2]],
 "condition":"ell>3",
 "decmat":[1,0,0,0,1,0,1,2,1],
 "hc_series":["ps","2A_2",".1"],
