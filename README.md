@@ -1,12 +1,18 @@
 # GenericDecMats
 
-This repository gives access to the generic decomposition matrices
-of various groups of Lie type.
+This repository gives access to the generic decomposition matrices of various groups of Lie type.
 
-The data (in the `data` subdirectory) have been provided by Gunter Malle.
+Currently the following use cases are supported.
 
-There are a GAP 4 interface (see `init.g` and the `gap` subdirectory) and a Julia interface (see the `src` subdirectory).
-Currently one can just load the data and show them.
+- The [Gapjm.jl](https://github.com/jmichel7/Gapjm.jl) package provides functionality for generic decomposition matrices.
+
+- The generic decomposition matrices can be read into [Oscar.jl](https://github.com/oscar-system/Oscar.jl), its matrices and polynomials are used then.
+
+- There is also a [GAP 4](https://www.gap-system.org/) interface, read `init.g` into a GAP session in order to provide functions for loading, displaying, and testing the matrices.
+
+The interfaces to Gapjm.jl and Oscar.jl are mutually exclusive, because of the different matrix and polynomial types that shall be supported.  In order to use GenericDecMats.jl together with one of these packages, this package must be loaded in advance.
+
+The data (in the `data` subdirectory) have been provided by [Gunter Malle](https://www.mathematik.uni-kl.de/~malle/de/index.html).
 
 
 # References
