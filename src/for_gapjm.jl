@@ -1,6 +1,6 @@
 # turn the list of integers and vectors into the decomposition matrix
 # in the Gapjm context
-function _decomposition_matrix_from_list(list::Vector, indets::Vector{String}, m::Int, n::Int)
+function _decomposition_matrix_from_list_Gapjm(list::Vector, indets::Vector{String}, m::Int, n::Int)
     if length(indets) > 0
       vars = [Gapjm.Mvp(Symbol(x)) for x in indets]
     else
@@ -27,6 +27,8 @@ function _decomposition_matrix_from_list(list::Vector, indets::Vector{String}, m
   # decmat = Gapjm.Mvp{Int,Int}.(reshape(list, (m, n))')
     return vars, reshape(list, (m, n))'
 end
+
+_decomposition_matrix_from_list[:Gapjm] = _decomposition_matrix_from_list_Gapjm
 
 _labelled_matrix_formatted = labelled_matrix_formatted
 

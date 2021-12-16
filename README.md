@@ -10,7 +10,7 @@ Currently the following use cases are supported.
 
 - There is also a [GAP 4](https://www.gap-system.org/) interface, read `init.g` into a GAP session in order to provide functions for loading, displaying, and testing the matrices.
 
-The interfaces to Gapjm.jl and Oscar.jl are mutually exclusive, because of the different matrix and polynomial types that shall be supported.  In order to use GenericDecMats.jl together with one of these packages, this package must be loaded in advance.
+The interfaces to Gapjm.jl and Oscar.jl can be used in the same Julia session.
 
 The data (in the `data` subdirectory) have been provided by [Gunter Malle](https://www.mathematik.uni-kl.de/~malle/de/index.html).
 

@@ -1,6 +1,6 @@
 # turn the list of integers and vectors into the decomposition matrix
 # in the Oscar context
-function _decomposition_matrix_from_list(list::Vector, indets::Vector{String}, m::Int, n::Int)
+function _decomposition_matrix_from_list_Oscar(list::Vector, indets::Vector{String}, m::Int, n::Int)
     if length(indets) > 0
       R, vars = Oscar.PolynomialRing(Oscar.ZZ, indets)
     else
@@ -25,6 +25,8 @@ function _decomposition_matrix_from_list(list::Vector, indets::Vector{String}, m
 
     return vars, Oscar.matrix(R, m, n, list)
 end
+
+_decomposition_matrix_from_list[:Oscar] = _decomposition_matrix_from_list_Oscar
 
 _labelled_matrix_formatted = Oscar.labelled_matrix_formatted
 
