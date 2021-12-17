@@ -1,8 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE file SYSTEM "bibxmlext.dtd">
+<file>
+<entry id="MR3061694"><article>
+  <author>
+    <name><first>Olivier</first><last>Dudas</last></name>
+  </author>
+  <title>A note on decomposition numbers for groups of <C>L</C>ie type of
+              small rank</title>
+  <journal>J. Algebra</journal>
+  <year>2013</year>
+  <volume>388</volume>
+  <pages>364--373</pages>
+  <issn>0021-8693</issn>
+  <mrnumber>3061694</mrnumber>
+  <mrclass>20C33 (14L35 20G40)</mrclass>
+  <mrreviewer>Simon M. Goodwin</mrreviewer>
+  <url>https://doi.org/10.1016/j.jalgebra.2013.04.030</url>
+  <other type="doi">10.1016/j.jalgebra.2013.04.030</other>
+  <other type="fjournal">Journal of Algebra</other>
+</article></entry>
 <entry id="MR753422"><article>
   <author>
     <name><first>Paul</first><last>Fong</last></name>
     <name><first>Bhama</first><last>Srinivasan</last></name>
-  </author>  
+  </author>
   <title>Brauer trees in <C><M>{\rm GL}(n,\,q)</M></C></title>
   <journal>Math. Z.</journal>
   <year>1984</year>
@@ -17,12 +38,11 @@
   <other type="doi">10.1007/BF01163168</other>
   <other type="fjournal">Mathematische Zeitschrift</other>
 </article></entry>
-
 <entry id="MR1055005"><article>
   <author>
     <name><first>Paul</first><last>Fong</last></name>
     <name><first>Bhama</first><last>Srinivasan</last></name>
-  </author>  
+  </author>
   <title>Brauer trees in classical groups</title>
   <journal>J. Algebra</journal>
   <year>1990</year>
@@ -37,11 +57,50 @@
   <other type="doi">10.1016/0021-8693(90)90172-K</other>
   <other type="fjournal">Journal of Algebra</other>
 </article></entry>
-
+<entry id="MR1135627"><article>
+  <author>
+    <name><first>Meinolf</first><last>Geck</last></name>
+  </author>
+  <title>Generalized <C>G</C>el'fand-<C>G</C>raev characters for
+      <C>S</C>teinberg's
+              triality groups and their applications</title>
+  <journal>Comm. Algebra</journal>
+  <year>1991</year>
+  <volume>19</volume>
+  <number>12</number>
+  <pages>3249--3269</pages>
+  <issn>0092-7872</issn>
+  <mrnumber>1135627</mrnumber>
+  <mrclass>20C33 (20G05)</mrclass>
+  <mrreviewer>Demetris I. Deriziotis</mrreviewer>
+  <url>https://doi.org/10.1080/00927879108824318</url>
+  <other type="doi">10.1080/00927879108824318</other>
+  <other type="fjournal">Communications in Algebra</other>
+</article></entry>
+<entry id="MR1487449"><article>
+  <author>
+    <name><first>Gerhard</first><last>Hiss</last></name>
+    <name><first>Frank</first><last>Lübeck</last></name>
+  </author>
+  <title>The <C>B</C>rauer trees of the exceptional <C>C</C>hevalley groups of
+              types <C><M>F_4</M></C> and <C><M>^2\!E_6</M></C></title>
+  <journal>Arch. Math. (Basel)</journal>
+  <year>1998</year>
+  <volume>70</volume>
+  <number>1</number>
+  <pages>16--21</pages>
+  <issn>0003-889X</issn>
+  <mrnumber>1487449</mrnumber>
+  <mrclass>20C33 (20C20 20G40)</mrclass>
+  <mrreviewer>Donald L. White</mrreviewer>
+  <url>https://doi.org/10.1007/s000130050159</url>
+  <other type="doi">10.1007/s000130050159</other>
+  <other type="fjournal">Archiv der Mathematik</other>
+</article></entry>
 <entry id="MR1031453"><article>
   <author>
     <name><first>Gordon</first><last>James</last></name>
-  </author>  
+  </author>
   <title>The decomposition matrices of <C><M>{\rm GL}_n(q)</M></C> for
       <C><M>n \leq
               10</M></C></title>
@@ -59,13 +118,12 @@
   <other type="fjournal">Proceedings of the London Mathematical Society. Third
       Series</other>
 </article></entry>
-
 <entry id="MR1289097"><article>
   <author>
     <name><first>Meinolf</first><last>Geck</last></name>
     <name><first>Gerhard</first><last>Hiss</last></name>
     <name><first>Gunter</first><last>Malle</last></name>
-  </author>  
+  </author>
   <title>Cuspidal unipotent <C>B</C>rauer characters</title>
   <journal>J. Algebra</journal>
   <year>1994</year>
@@ -80,12 +138,11 @@
   <other type="doi">10.1006/jabr.1994.1226</other>
   <other type="fjournal">Journal of Algebra</other>
 </article></entry>
-
 <entry id="MR1489925"><article>
   <author>
     <name><first>Tetsuro</first><last>Okuyama</last></name>
     <name><first>Katsushi</first><last>Waki</last></name>
-  </author>  
+  </author>
   <title>Decomposition numbers of <C><M>{\rm Sp}(4,q)</M></C></title>
   <journal>J. Algebra</journal>
   <year>1998</year>
@@ -100,12 +157,11 @@
   <other type="doi">10.1006/jabr.1997.7189</other>
   <other type="fjournal">Journal of Algebra</other>
 </article></entry>
-
 <entry id="MR3216598"><article>
   <author>
     <name><first>Frank</first><last>Himstedt</last></name>
     <name><first>Felix</first><last>Noeske</last></name>
-  </author>  
+  </author>
   <title>Decomposition numbers of <C><M>{\rm SO}_7(q)</M></C> and <C><M>{\rm
               Sp}_6(q)</M></C></title>
   <journal>J. Algebra</journal>
@@ -120,12 +176,11 @@
   <other type="doi">10.1016/j.jalgebra.2014.04.020</other>
   <other type="fjournal">Journal of Algebra</other>
 </article></entry>
-
 <entry id="MR3356813"><article>
   <author>
     <name><first>Olivier</first><last>Dudas</last></name>
     <name><first>Gunter</first><last>Malle</last></name>
-  </author>  
+  </author>
   <title>Decomposition matrices for low-rank unitary groups</title>
   <journal>Proc. Lond. Math. Soc. (3)</journal>
   <year>2015</year>
@@ -141,12 +196,11 @@
   <other type="fjournal">Proceedings of the London Mathematical Society. Third
       Series</other>
 </article></entry>
-
 <entry id="MR3414409"><article>
   <author>
     <name><first>Olivier</first><last>Dudas</last></name>
     <name><first>Gunter</first><last>Malle</last></name>
-  </author>  
+  </author>
   <title>Decomposition matrices for exceptional groups at
       <C><M>d=4</M></C></title>
   <journal>J. Pure Appl. Algebra</journal>
@@ -162,12 +216,11 @@
   <other type="doi">10.1016/j.jpaa.2015.08.009</other>
   <other type="fjournal">Journal of Pure and Applied Algebra</other>
 </article></entry>
-
 <entry id="MR3937335"><article>
   <author>
     <name><first>Olivier</first><last>Dudas</last></name>
     <name><first>Gunter</first><last>Malle</last></name>
-  </author>  
+  </author>
   <title>Bounding <C>H</C>arish-<C>C</C>handra series</title>
   <journal>Trans. Amer. Math. Soc.</journal>
   <year>2019</year>
@@ -183,12 +236,11 @@
   <other type="fjournal">Transactions of the American Mathematical
       Society</other>
 </article></entry>
-
 <entry id="MR1935498"><article>
   <author>
     <name><first>Tetsuro</first><last>Okuyama</last></name>
     <name><first>Katsushi</first><last>Waki</last></name>
-  </author>  
+  </author>
   <title>Decomposition numbers of <C><M>{\rm SU}(3,q^2)</M></C></title>
   <journal>J. Algebra</journal>
   <year>2002</year>
@@ -203,21 +255,39 @@
   <other type="doi">10.1016/S0021-8693(02)00160-6</other>
   <other type="fjournal">Journal of Algebra</other>
 </article></entry>
-
+<entry id="MR1000493"><article>
+  <author>
+    <name><first>Josephine</first><last>Shamash</last></name>
+  </author>
+  <title>Brauer trees for blocks of cyclic defect in the groups
+  <C><M>G_2(q)</M></C> for primes dividing <C><M>q^2\pm q+1</M></C></title>
+  <journal>J. Algebra</journal>
+  <year>1989</year>
+  <volume>123</volume>
+  <number>2</number>
+  <pages>378--396</pages>
+  <issn>0021-8693</issn>
+  <mrnumber>1000493</mrnumber>
+  <mrclass>20C20 (20G40)</mrclass>
+  <mrreviewer>R. W. Carter</mrreviewer>
+  <url>https://doi.org/10.1016/0021-8693(89)90052-5</url>
+  <other type="doi">10.1016/0021-8693(89)90052-5</other>
+  <other type="fjournal">Journal of Algebra</other>
+</article></entry>
 <entry id="arXiv:2001.06395"><misc>
   <author>
     <name><first>Olivier</first><last>Dudas</last></name>
     <name><first>Gunter</first><last>Malle</last></name>
-  </author>  
+  </author>
   <title>Decomposition matrices for groups of Lie type
               in non-defining characteristic</title>
   <howpublished>arXiv:2001.06395</howpublished>
   <url>https://arxiv.org/abs/2001.06395</url>
 </misc></entry>
-
 <entry id="G.M."><misc>
   <author>
     <name><first>Gunter</first><last>Malle</last></name>
-  </author>  
+  </author>
   <title>Computed directly (in principle known from MR1031453 [Jam90])</title>
 </misc></entry>
+</file>
