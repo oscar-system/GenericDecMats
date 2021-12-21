@@ -7,6 +7,6 @@
 "condition":"ell>3",
 "decmat":[1,0,0,0,1,0,1,2,1],
 "hc_series":["ps","2A_2",".1"],
-"ordinary":["3","21","111"],
+"ordinary":["2","{}^2A_2","11"],
 "origin":"MR1935498"
 }

@@ -12,3 +12,6 @@ end
 if isdefined(Main, :Oscar) || isdefined(Main, :Gapjm)
   include("testdisp.jl")
 end
+if isdefined(Main, :Gapjm)
+  include("testcons.jl")
+end
