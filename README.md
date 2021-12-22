@@ -12,6 +12,8 @@ Currently the following use cases are supported.
 
 The interfaces to Gapjm.jl and Oscar.jl can be used in the same Julia session.
 
+There is [a preliminary printout version of the data](https://www.math.rwth-aachen.de/~Thomas.Breuer/GenericDecMats); both the location and the format will be changed.
+
 The data (in the `data` subdirectory) have been provided by [Gunter Malle](https://www.mathematik.uni-kl.de/~malle/de/index.html).
 
 
