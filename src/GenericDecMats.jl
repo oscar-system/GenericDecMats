@@ -90,6 +90,8 @@ mutable struct GenericDecompositionMatrix
     condition::String
     # bibliographical information
     origin::String
+    # is the information complete (perhaps some blocks are missing)
+    is_complete::Bool
 end
 
 """
@@ -149,6 +151,13 @@ function generic_decomposition_matrix(name::String, context::Symbol)
             [nam, prs[:ordinary][findfirst(isequal(i), prs[:blocklabels])], 0])
     end
 
+    # Store the completeness flag.
+    if haskey(prs, :is_complete)
+      is_complete = prs[:is_complete]
+    else
+      is_complete = true
+    end
+
     obj = GenericDecompositionMatrix(
       context,
       prs[:type],
@@ -162,6 +171,7 @@ function generic_decomposition_matrix(name::String, context::Symbol)
       decmat,
       prs[:condition],
       prs[:origin],
+      is_complete,
     )
 end
 

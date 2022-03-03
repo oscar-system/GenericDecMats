@@ -49,15 +49,16 @@
     d = parse(Int, nam[(pos+1):end])
     if shift isa Function
       n = parse(Int, nam[from:(pos-1)])
-      R = rootdatum(rnam, shift(n))
+      R = Gapjm.rootdatum(rnam, shift(n))
     else
-      R = rootdatum(rnam)
+      R = Gapjm.rootdatum(rnam)
     end
 
     # The dimension of the matrix must fit.
-    l1 = length(charnames(UnipotentCharacters(R), TeX = true))
-    l2 = length(GenericDecMats.generic_decomposition_matrix(nam).ordinary)
-    if l1 != l2
+    l1 = length(Gapjm.charnames(Gapjm.UnipotentCharacters(R), TeX = true))
+    obj = GenericDecMats.generic_decomposition_matrix(nam)
+    l2 = length(obj.ordinary)
+    if l1 != l2 && obj.is_complete == true
       error("$nam: ordinary has length $l2 (should be $l1)")
     end
 
