@@ -32,6 +32,25 @@ end;
 
 ##############################################################################
 ##
+#F  GDM_name_info( <name>
+##
+GDM_name_info:= function( name )
+    local pos, pos2, type, n, d;
+
+    pos:= Position( name, 'd' );
+    pos2:= pos - 1;
+    while IsDigitChar( name[ pos2 ] ) do
+      pos2:= pos2 - 1;
+    od;
+    type:= name{ [ 1 .. pos2 ] };
+    n:= Int( name{ [ pos2 + 1 ..pos - 1 ] } );
+    d:= Int( name{ [ pos + 1 .. Length( name ) ] } );
+    return [ type, n, d ];
+end;
+
+
+##############################################################################
+##
 #F  GDM_polynomial_from_extrep( <fam>, <entry>, <indetsindices> )
 ##
 GDM_polynomial_from_extrep:= function( fam, entry, indetsindices )
@@ -290,8 +309,11 @@ GenericDecompositionMatricesNames:= function()
     local dir, files;
 
     dir:= Filename( GDM_pkgdir, "data" );
+
     files:= Filtered( DirectoryContents( dir ), x -> EndsWith( x, ".json" ) );
-    return List( files, x -> x{ [ 1 .. Position( x, '.' ) - 1 ] } );
+    files:= List( files, x -> x{ [ 1 .. Position( x, '.' ) - 1 ] } );
+    SortParallel( List( files, GDM_name_info ), files );
+    return files;
 end;
 
 

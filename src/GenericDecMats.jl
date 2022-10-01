@@ -186,13 +186,24 @@ function generic_decomposition_matrix(name::String)
                collect(_decomposition_matrix_from_list)[1][1])
 end
 
+function generic_decomposition_matrices_name_info(name::String)
+    pos = findfirst('d', name)
+    pos2 = findprev(! isdigit, name, pos-1)
+    type = name[1:pos2]
+    n = parse(Int, name[(pos2+1):(pos-1)])
+    d = parse(Int, name[(pos+1):length(name)])
+    return (type, n, d)
+end
+
 """
     generic_decomposition_matrices_names()
 
 Return an array of the names of the available matrices.
 """
 function generic_decomposition_matrices_names()
-    return [x[1:findfirst('.', x)-1] for x in readdir(_datadir)]
+    names = [x[1:findfirst('.', x)-1] for x in readdir(_datadir)]
+    sort!(names, by = generic_decomposition_matrices_name_info)
+    return names
 end
 
 """
