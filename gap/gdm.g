@@ -374,10 +374,11 @@ InstallMethod( Browse, [ "IsRecord" ],
       TryNextMethod();
     fi;
 
-    origin:= Concatenation( "\n",
-                StringBibXMLEntry( GDM_References.( r.origin ), "Text" ) );
+    origin:= List( SplitString( r.origin, "," ),
+                   x -> StringBibXMLEntry( GDM_References.( x ), "Text" ) );
 #TODO: As soon as Browse supports unicode characters, do not convert to ASCII.
-    origin:= Encode( SimplifiedUnicodeString( Unicode( origin ), "ASCII" ),
+    origin:= Encode( SimplifiedUnicodeString(
+                         Unicode( Concatenation( origin ) ), "ASCII" ),
                      "ASCII" );
 
     NCurses.BrowseDenseList( r.decmat, rec(
@@ -387,7 +388,7 @@ InstallMethod( Browse, [ "IsRecord" ],
         convertEntry:= NCurses.ReplaceZeroByDot,
         labelsCol:= [ r.hc_series ],
         labelsRow:= List( r.ordinary, x -> [ x ] ),
-        footer:= SplitString( origin, "\n" ),
+        footer:= Concatenation( [ "\n" ], SplitString( origin, "\n" ) ),
       ) );
     end );
 
