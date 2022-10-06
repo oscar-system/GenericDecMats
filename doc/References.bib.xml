@@ -375,7 +375,7 @@
     <name><first>Olivier</first><last>Dudas</last></name>
     <name><first>Gunter</first><last>Malle</last></name>
   </author>
-  <title>Decomposition matrices for groups of Lie type
+  <title>Decomposition matrices for groups of <C>L</C>ie type
               in non-defining characteristic</title>
   <howpublished>arXiv:2001.06395</howpublished>
   <url>https://arxiv.org/abs/2001.06395</url>
@@ -384,6 +384,7 @@
   <author>
     <name><first>Gunter</first><last>Malle</last></name>
   </author>
-  <title>Computed directly (in principle known from MR1031453 [Jam90])</title>
+  <title>Computed directly (in principle known from <C>MR1031453</C>
+              <C>[Jam90]</C>)</title>
 </misc></entry>
 </file>
