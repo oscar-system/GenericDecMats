@@ -34,3 +34,25 @@ function zero_repl_string(obj)
    str = string(obj)
    return (str == "0" ? "." : str)
 end
+
+# GAPDoc is available, we can use it to turn the BibTeX references
+# into text format references, which can be formatted at runtime.
+
+function load_references()
+  file = joinpath(@__DIR__, "..", "doc", "References.bib.xml")
+  prs = Oscar.GAP.Globals.ParseBibXMLextFiles(Oscar.GAP.julia_to_gap(file))::Oscar.GAP.GapObj
+  txt = Oscar.GAP.julia_to_gap("Text")::Oscar.GAP.GapObj
+  for e in prs.entries
+    r = Oscar.GAP.Globals.RecBibXMLEntry(e, txt, prs.strings)::Oscar.GAP.GapObj
+    gdm_references[Oscar.GAP.gap_to_julia(r.Label)] = e
+  end
+end
+load_references()
+
+function formatted_reference(label::AbstractString)
+  txt = Oscar.GAP.julia_to_gap("Text")
+  Globals = Oscar.GAP.Globals
+  r = gdm_references[label]::Oscar.GAP.GapObj
+  origin = Globals.StringBibXMLEntry(r, txt)
+  return string(Globals.Encode(Globals.Unicode(origin)::Oscar.GAP.GapObj, Globals.GAPInfo.TermEncoding::Oscar.GAP.GapObj)::Oscar.GAP.GapObj)
+end

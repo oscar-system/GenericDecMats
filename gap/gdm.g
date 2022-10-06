@@ -68,6 +68,107 @@ end;
 
 ##############################################################################
 ##
+#F  GDM_string_from_polynomial( <pol> )
+##
+##  Return a LaTeX string describing the multivariate polynomial <pol>.
+##
+GDM_string_from_polynomial:= function( pol )
+    local extrep, nams, i, pos, l, stri, li, j, res;
+
+    extrep:= ExtRepPolynomialRatFun( pol );
+    if Length( extrep ) = 0 then
+      return "0";
+    fi;
+
+    nams:= ShallowCopy( FamilyObj( pol )!.namesIndets );
+    for i in [ 1 .. Length( nams ) ] do
+      if IsBound( nams[i] ) then
+        pos:= PositionProperty( nams[i], IsDigitChar );
+        if pos <> fail then
+          nams[i]:= Concatenation( nams[i]{ [ 1 .. pos-1 ]}, "_{",
+                        nams[i]{ [ pos .. Length( nams[i] ) ] }, "}" );
+        fi;
+      fi;
+    od;
+
+    l:= [];
+    for i in [ 2, 4 .. Length( extrep ) ] do
+      li:= extrep[ i-1 ];
+      if extrep[i] = 1 and Length( li ) > 0 then
+        stri:= "";
+      elif extrep[i] = -1 and Length( li ) > 0 then
+        stri:= "-";
+      else
+        stri:= ShallowCopy( String( extrep[i] ) );
+      fi;
+      if Length( li ) <> 0 then
+        for j in [ 2, 4 .. Length( li ) ] do
+          Append( stri, nams[ li[j-1] ] );
+          if li[j] <> 1 then
+            Append( stri, "^{" );
+            Append( stri, String( li[j] ) );
+            Append( stri, "}" );
+          fi;
+        od;
+      fi;
+      Add( l, stri );
+    od;
+    l:= Reversed( l );
+    res:= l[1];
+    for i in [ 2 .. Length( l ) ] do
+      if l[i][1] <> '-' then
+        Add( res, '+' );
+      fi;
+      Append( res, l[i] );
+    od;
+    return res;
+end;
+
+
+##############################################################################
+##
+#F  GDM_ConditionString( <condition>, <format> )
+##
+##  <format> must be one of '"LaTeX"', '"Text"'.
+##
+GDM_ConditionString:= function( condition, format )
+    local condstrings, entry, str, pos;
+
+    condstrings:= [];
+    if condition <> "none" then
+      for entry in List( SplitString( condition, "," ),
+                         NormalizedWhitespace ) do
+        str:= "";
+        if StartsWith( entry, "ell>" ) then
+          Append( str, "l > " );
+          Append( str, entry{ [ 5 .. Length( entry ) ] } );
+          Add( condstrings, str );
+        elif StartsWith( entry, "(q" ) then
+          # expect '(q^i+...)_ell>k'
+          pos:= PositionSublist( entry, ")_ell>" );
+          if pos = fail then
+            return fail;
+          fi;
+          Append( str, entry{ [ 1 .. pos+1 ] } );
+          Append( str, "l > " );
+          Append( str, entry{ [ pos + 6 .. Length( entry ) ] } );
+          Add( condstrings, str );
+        else
+          return fail;
+        fi;
+      od;
+    fi;
+
+    if format = "LaTeX" then
+      condstrings:= List( condstrings, x -> Concatenation( "$", x, "$" ) );
+    fi;
+
+    return JoinStringsWithSeparator( condstrings, ", " );
+end;
+
+
+##############################################################################
+##
 #F  GDM_GAP_record_from_raw_data( <scan> )
 ##
 ##  For a record <scan> obtained from evaluating a JSON text encoding a
@@ -368,7 +469,7 @@ GDM_Load_References();
 ##
 InstallMethod( Browse, [ "IsRecord" ],
     function( r )
-    local origin;
+    local origin, cond;
 
     if not IsBound( r.decmat ) then
       TryNextMethod();
@@ -381,9 +482,16 @@ InstallMethod( Browse, [ "IsRecord" ],
                          Unicode( Concatenation( origin ) ), "ASCII" ),
                      "ASCII" );
 
+    cond:= GDM_ConditionString( r.condition, "Text" );
+    if cond = fail then
+      cond:= "";
+    elif cond <> "" then
+      cond:= Concatenation( "  (", cond, ")" );
+    fi;
+
     NCurses.BrowseDenseList( r.decmat, rec(
         header:= [ Concatenation( r.name[1], String( r.name[2] ),
-                       ", d = ", String( r.d ) ),
+                       "(q), d = ", String( r.d ), cond ),
                    "" ],
         convertEntry:= NCurses.ReplaceZeroByDot,
         labelsCol:= [ r.hc_series ],

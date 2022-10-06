@@ -14,44 +14,53 @@ julia> generic_decomposition_matrices_overview()
 to show which cases are available.
 
 # Examples
-```
+```jldoctest
 julia> mat = generic_decomposition_matrix("B2d2")
-B2, d = 2
+B2(q), d = 2  (l > 2, (q+1)_l > 3)
 
-   │ps A1 B1 ps B2 .1^2
-───┼───────────────────
- 2.│ 1  .  .  .  .    .
-11.│ 1  1  .  .  .    .
- .2│ 1  .  1  .  .    .
-1.1│ .  .  .  1  .    .
- B2│ .  .  .  .  1    .
-.11│ 1  1  1  .  2    1
+   │ps A_1 B_1 ps B_2 .11
+───┼─────────────────────
+ 2.│ 1   .   .  .   .   .
+11.│ 1   1   .  .   .   .
+ .2│ 1   .   1  .   .   .
+1.1│ .   .   .  1   .   .
+B_2│ .   .   .  .   1   .
+.11│ 1   1   1  .   2   1
+
+[OW98]  Okuyama,  T.  and  Waki,  K.,  Decomposition  numbers of Sp(4,q), J.
+Algebra, 199, 2 (1998), 544–555.
 
 julia> show(IOContext(stdout, :block => 1), "text/plain", mat)
-B2, d = 2 (block 1)
+B2(q), d = 2  (l > 2, (q+1)_l > 3) (block 1)
 
-   │ps A1 B1 B2 .1^2
-───┼────────────────
- 2.│ 1  .  .  .    .
-11.│ 1  1  .  .    .
- .2│ 1  .  1  .    .
- B2│ .  .  .  1    .
-.11│ 1  1  1  2    1
+   │ps A_1 B_1 B_2 .11
+───┼──────────────────
+ 2.│ 1   .   .   .   .
+11.│ 1   1   .   .   .
+ .2│ 1   .   1   .   .
+B_2│ .   .   .   1   .
+.11│ 1   1   1   2   1
+
+[OW98]  Okuyama,  T.  and  Waki,  K.,  Decomposition  numbers of Sp(4,q), J.
+Algebra, 199, 2 (1998), 544–555.
 
 julia> show(stdout, "text/latex", mat)
-$B2, d = 2
+$B2(q), d = 2  (l > 2, (q+1)_l > 3)
 
 \begin{array}{r|rrrrrr}
- & ps & A1 & B1 & ps & B2 & .1^2 \\
+ & ps & A_1 & B_1 & ps & B_2 & .11 \\
 \hline
 2. & 1 & . & . & . & . & . \\
 11. & 1 & 1 & . & . & . & . \\
 .2 & 1 & . & 1 & . & . & . \\
 1.1 & . & . & . & 1 & . & . \\
-B2 & . & . & . & . & 1 & . \\
+B_2 & . & . & . & . & 1 & . \\
 .11 & 1 & 1 & 1 & . & 2 & 1 \\
 \end{array}
 $
+
+\cite{MR1489925}
+
 ```
 """
 module GenericDecMats
@@ -227,14 +236,48 @@ function generic_decomposition_matrices_overview()
     end
 end
 
+##  `format` must be one of `:LaTeX`, `:Text`.
+function condition_string(condition, format)
+    condstrings = String[]
+    if condition != "none"
+      for entry in map(strip, split(condition, "," ))
+        if startswith(entry, "ell>")
+          str = "l > $(entry[5:end])"
+        elseif startswith(entry, "(q")
+          # expect '(q^i+...)_ell>k'
+          pos = findfirst(")_ell>", entry)
+          if pos == nothing
+            return
+          end
+          str = "$(entry[1:(pos[1]+1)])l > $(entry[(pos[end]+1):end])"
+        else
+          return
+        end
+        push!(condstrings, str)
+      end
+    end
+
+    if format == :LaTeX
+      condstrings = map(x -> "\$"*x*"\$", condstrings)
+    end
+
+    return join(condstrings, ", " )
+end
+
 function Base.show(io::IO, ::MIME"text/latex", decmat::GenericDecompositionMatrix)
-  print(io, "\$")
   show(IOContext(io, :TeX => true), "text/plain", decmat)
-  print(io, "\$")
 end
 
 function Base.show(io::IO, ::MIME"text/plain", decmat::GenericDecompositionMatrix)
-    name = decmat.type*string(decmat.n)*", d = "*string(decmat.d)
+    TeX = get(io, :TeX, false)
+    if TeX
+      print(io, "\$")
+    end
+    cond = condition_string(decmat.condition, :Text)
+    if cond != ""
+      cond = "  ($cond)"
+    end
+    name = "$(decmat.type)$(decmat.n)(q), d = $(decmat.d)$cond"
 
     # Decide whether we want to restrict the output to one block.
     if haskey(io, :block)
@@ -254,6 +297,16 @@ function Base.show(io::IO, ::MIME"text/plain", decmat::GenericDecompositionMatri
       ordinary = decmat.ordinary
     end
 
+    footer = String[]
+    if !TeX
+      for ref in split(decmat.origin, ",")
+        if haskey(gdm_references, ref)
+          push!(footer, formatted_reference(ref))
+        end
+      end
+      footer = String.(split("\n"*chomp(chomp(join(footer))), "\n"))
+    end
+
     # Create the IO context.
     ioc = IOContext(io,
       :header => [name, ""],
@@ -261,6 +314,7 @@ function Base.show(io::IO, ::MIME"text/plain", decmat::GenericDecompositionMatri
       :separators_row => [0],
       :separators_col => [0],
       :labels_row => ordinary,
+      :footer => footer,
       :limit => true,
     )
 
@@ -270,7 +324,18 @@ function Base.show(io::IO, ::MIME"text/plain", decmat::GenericDecompositionMatri
 
     # Print the labelled matrix.
     _labelled_matrix_formatted(ioc, strmat)
+
+    if TeX
+      println(io, "\$\n")
+      for ref in split(decmat.origin, ",")
+        if haskey(gdm_references, ref)
+          println("\\cite{$ref}")
+        end
+      end
+    end
 end
+
+const gdm_references = Dict{String, Any}()
 
 function __init__()
     # If Oscar is available then support a method for its polynomials.
