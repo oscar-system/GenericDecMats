@@ -67,7 +67,17 @@ module GenericDecMats
 
 using Markdown
 using JSON
-using Requires
+
+if !isdefined(Base, :get_extension)
+  using Requires
+  function extension_if_available(parent::Module, extid::Symbol)
+    isdefined(parent, extid) || return nothing
+    return getproperty(parent, extid)
+  end
+else
+  extension_if_available(parent::Module, extid::Symbol) =
+      Base.get_extension(parent, extid)
+end
 
 import Base.show
 
@@ -297,11 +307,15 @@ function Base.show(io::IO, ::MIME"text/plain", decmat::GenericDecompositionMatri
       ordinary = decmat.ordinary
     end
 
+    GenericDecMatsGAP = extension_if_available(GenericDecMats, :GenericDecMatsGAP)
+    GenericDecMatsGapjm = extension_if_available(GenericDecMats, :GenericDecMatsGapjm)
+    GenericDecMatsOscar = extension_if_available(GenericDecMats, :GenericDecMatsOscar)
+
     footer = String[]
-    if !TeX
+    if !TeX && !isnothing(GenericDecMatsGAP)
       for ref in split(decmat.origin, ",")
-        if haskey(gdm_references, ref)
-          push!(footer, formatted_reference(ref))
+        if haskey(GenericDecMatsGAP.gdm_references, ref)
+          push!(footer, GenericDecMatsGAP.formatted_reference(ref))
         end
       end
       footer = String.(split("\n"*chomp(chomp(join(footer))), "\n"))
@@ -323,30 +337,47 @@ function Base.show(io::IO, ::MIME"text/plain", decmat::GenericDecompositionMatri
               for i in rowindices, j in colindices]
 
     # Print the labelled matrix.
-    _labelled_matrix_formatted(ioc, strmat)
+    if haskey(GenericDecMats._decomposition_matrix_from_list, :Oscar)
+      GenericDecMatsOscar.labelled_matrix_formatted(ioc, strmat)
+    elseif haskey(GenericDecMats._decomposition_matrix_from_list, :Gapjm)
+      GenericDecMatsGapjm.labelled_matrix_formatted(ioc, strmat)
+    else
+      # precompilation problem in Julia 1.9?
+      error("something went wrong, neither Oscar nor Gapjm is loaded")
+    end
 
     if TeX
       println(io, "\$\n")
-      for ref in split(decmat.origin, ",")
-        if haskey(gdm_references, ref)
-          println("\\cite{$ref}")
+      if !isnothing(GenericDecMatsGAP)
+        for ref in split(decmat.origin, ",")
+          if haskey(GenericDecMatsGAP.gdm_references, ref)
+            println("\\cite{$ref}")
+          end
         end
       end
     end
 end
 
-const gdm_references = Dict{String, Any}()
+function zero_repl_string(obj)
+   str = string(obj)
+   return (str == "0" ? "." : str)
+end
 
+@static if !isdefined(Base, :get_extension)
 function __init__()
     # If Oscar is available then support a method for its polynomials.
     Requires.@require Oscar = "f1435218-dba5-11e9-1e4d-f1a5fab5fc13" begin
-      include("for_oscar.jl")
+      include("../ext/GenericDecMatsOscar.jl")
     end
     # If Gapjm is available then support a method for its polynomials.
     Requires.@require Gapjm = "367f69f0-ca63-11e8-2372-438b29340c1b" begin
-      include("MatrixDisplay.jl")
-      include("for_gapjm.jl")
+      include("../ext/GenericDecMatsGapjm.jl")
     end
+    # If GAP is available then support formatted references
+    Requires.@require GAP = "c863536a-3901-11e9-33e7-d5cd0df7b904" begin
+      include("../ext/GenericDecMatsGAP.jl")
+    end
+end
 end
 
 end # module
