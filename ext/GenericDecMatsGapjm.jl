@@ -1,3 +1,10 @@
+module GenericDecMatsGapjm
+
+using GenericDecMats
+isdefined(Base, :get_extension) ? (using Gapjm) : (using ..Gapjm)
+
+import GenericDecMats: zero_repl_string
+
 # turn the list of integers and vectors into the decomposition matrix
 # in the Gapjm context
 function _decomposition_matrix_from_list_Gapjm(list::Vector, indets::Vector{String}, m::Int, n::Int)
@@ -28,9 +35,8 @@ function _decomposition_matrix_from_list_Gapjm(list::Vector, indets::Vector{Stri
     return vars, reshape(list, (m, n))'
 end
 
-_decomposition_matrix_from_list[:Gapjm] = _decomposition_matrix_from_list_Gapjm
-
-_labelled_matrix_formatted = labelled_matrix_formatted
+# provide `labelled_matrix_formatted` as in Oscar.jl
+include("../src/MatrixDisplay.jl")
 
 function zero_repl_string(pol::Gapjm.Mvp)
     io = IOBuffer()
@@ -38,4 +44,9 @@ function zero_repl_string(pol::Gapjm.Mvp)
     show(ioc, pol)
     str = String(take!(io))
     return (str == "0" ? "." : str)
+end
+
+function __init__()
+  GenericDecMats._decomposition_matrix_from_list[:Gapjm] = _decomposition_matrix_from_list_Gapjm
+end
 end
