@@ -80,7 +80,7 @@ const _datadir = abspath(@__DIR__, "..", "data")
 const _decomposition_matrix_from_list = Dict{Symbol, Function}()
 
 mutable struct GenericDecompositionMatrix
-    # store whether the contents belongs to Oscar or Gapjm
+    # store whether the contents belongs to Oscar or Chevie
     context::Symbol
     # parameters
     type::String
@@ -187,7 +187,7 @@ end
 # support the one argument version only if the method is unique
 function generic_decomposition_matrix(name::String)
     len = length(_decomposition_matrix_from_list)
-    len == 0 && error("no method available, try to load Gapjm.jl or Oscar.jl")
+    len == 0 && error("no method available, try to load Chevie.jl or Oscar.jl")
     len == 1 ||
       error("please specify one of $(string(keys(_decomposition_matrix_from_list))) as second argument")
 
@@ -342,10 +342,10 @@ function __init__()
     Requires.@require Oscar = "f1435218-dba5-11e9-1e4d-f1a5fab5fc13" begin
       include("for_oscar.jl")
     end
-    # If Gapjm is available then support a method for its polynomials.
-    Requires.@require Gapjm = "367f69f0-ca63-11e8-2372-438b29340c1b" begin
+    # If Chevie is available then support a method for its polynomials.
+    Requires.@require Chevie = "367f69f0-ca63-11e8-2372-438b29340c1b" begin
       include("MatrixDisplay.jl")
-      include("for_gapjm.jl")
+      include("for_chevie.jl")
     end
 end
 
