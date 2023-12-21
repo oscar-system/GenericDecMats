@@ -1,4 +1,4 @@
-@testset "check that all matrices can be processed by Gapjm.jl" begin
+@testset "check that all matrices can be processed by Chevie.jl" begin
 
   @testset for nam in GenericDecMats.generic_decomposition_matrices_names()
 
@@ -49,21 +49,21 @@
     d = parse(Int, nam[(pos+1):end])
     if shift isa Function
       n = parse(Int, nam[from:(pos-1)])
-      R = Gapjm.rootdatum(rnam, shift(n))
+      R = Chevie.rootdatum(rnam, shift(n))
     else
-      R = Gapjm.rootdatum(rnam)
+      R = Chevie.rootdatum(rnam)
     end
 
     # The dimension of the matrix must fit.
-    l1 = length(Gapjm.charnames(Gapjm.UnipotentCharacters(R), TeX = true))
+    l1 = length(Chevie.charnames(Chevie.UnipotentCharacters(R), TeX = true))
     obj = GenericDecMats.generic_decomposition_matrix(nam)
     l2 = length(obj.ordinary)
     if l1 != l2 && obj.is_complete == true
       error("$nam: ordinary has length $l2 (should be $l1)")
     end
 
-    # Let Gapjm interpret the matrix.
-    @test Gapjm.generic_decomposition_matrix(R, d) != nothing
+    # Let Chevie interpret the matrix.
+    @test Chevie.generic_decomposition_matrix(R, d) != nothing
   end
 
 end

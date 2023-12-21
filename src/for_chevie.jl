@@ -1,10 +1,10 @@
 # turn the list of integers and vectors into the decomposition matrix
-# in the Gapjm context
-function _decomposition_matrix_from_list_Gapjm(list::Vector, indets::Vector{String}, m::Int, n::Int)
+# in the Chevie context
+function _decomposition_matrix_from_list_Chevie(list::Vector, indets::Vector{String}, m::Int, n::Int)
     if length(indets) > 0
-      vars = [Gapjm.Mvp(Symbol(x)) for x in indets]
+      vars = [Chevie.Mvp(Symbol(x)) for x in indets]
     else
-      vars = Gapjm.Mvp{Int, Int}[]
+      vars = Chevie.Mvp{Int, Int}[]
     end
 
     # Construct the decomposition matrix.
@@ -22,17 +22,17 @@ function _decomposition_matrix_from_list_Gapjm(list::Vector, indets::Vector{Stri
         list[i] = val
       end
     end
-    list = Gapjm.Mvp{Int,Int}.(list)
-  # decmat = Matrix{Gapjm.Mvp}(reshape(list, (m, n))')
-  # decmat = Gapjm.Mvp{Int,Int}.(reshape(list, (m, n))')
+    list = Chevie.Mvp{Int,Int}.(list)
+  # decmat = Matrix{Chevie.Mvp}(reshape(list, (m, n))')
+  # decmat = Chevie.Mvp{Int,Int}.(reshape(list, (m, n))')
     return vars, reshape(list, (m, n))'
 end
 
-_decomposition_matrix_from_list[:Gapjm] = _decomposition_matrix_from_list_Gapjm
+_decomposition_matrix_from_list[:Chevie] = _decomposition_matrix_from_list_Chevie
 
 _labelled_matrix_formatted = labelled_matrix_formatted
 
-function zero_repl_string(pol::Gapjm.Mvp)
+function zero_repl_string(pol::Chevie.Mvp)
     io = IOBuffer()
     ioc = IOContext(io, :limit => true)
     show(ioc, pol)

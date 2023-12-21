@@ -4,13 +4,13 @@ This repository gives access to the generic decomposition matrices of various gr
 
 Currently the following use cases are supported.
 
-- The [Gapjm.jl](https://github.com/jmichel7/Gapjm.jl) package provides functionality for generic decomposition matrices.
+- The [Chevie.jl](https://github.com/jmichel7/Chevie.jl) package provides functionality for generic decomposition matrices.
 
 - The generic decomposition matrices can be read into [Oscar.jl](https://github.com/oscar-system/Oscar.jl), its matrices and polynomials are used then.
 
 - There is also a [GAP 4](https://www.gap-system.org/) interface, read `init.g` into a GAP session in order to provide functions for loading, displaying, and testing the matrices.
 
-The interfaces to Gapjm.jl and Oscar.jl can be used in the same Julia session.
+The interfaces to Chevie.jl and Oscar.jl can be used in the same Julia session.
 
 There is [a preliminary printout version of the data](https://www.math.rwth-aachen.de/~Thomas.Breuer/GenericDecMats); both the location and the format will be changed.
 

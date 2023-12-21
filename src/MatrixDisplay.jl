@@ -15,7 +15,7 @@
 ##  The code was inspired by the ideas underlying
 ##  [GAP's Browse package](http://www.math.rwth-aachen.de/~Browse/),
 ##  and by Jean Michel's implementation of character table display in his
-##  [Julia package Gapjm.jl](https://github.com/jmichel7/Gapjm.jl).
+##  [Julia package Chevie.jl](https://github.com/jmichel7/Chevie.jl).
 ##
 ##  Some open items (to be addressed if there is interest):
 ##  Support left/centered/right alignment of columns and of the whole table.
