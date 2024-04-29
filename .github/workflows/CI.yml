@@ -31,17 +31,17 @@ jobs:
             julia-version: '1.9'
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # For Codecov, we must also fetch the parent of the HEAD commit to
           # be able to properly deal with PRs / merges
           fetch-depth: 2
       - name: "Set up Julia"
-        uses: julia-actions/setup-julia@v1
+        uses: julia-actions/setup-julia@v2
         with:
           version: ${{ matrix.julia-version }}
       - name: Cache artifacts
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         env:
           cache-name: cache-artifacts
         with:
